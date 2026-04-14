@@ -119,7 +119,7 @@ namespace KamWerksCardIndexCSharp.DiscordBot.Outputs.Fancy_Format
 					.Split(" ")
 					.Where(item => item != "Gem" && item != "Gems") // Exclude "Gem" and "Gems"
 					.ToList(); // Convert back to a list after filtering
-				Stream Cost;
+
 				var CostStream = await httpClient.GetStreamAsync(BlankSigil);
 				Image<Rgba32> CostImage = await Task.Run(() => Image.Load<Rgba32>(CostStream));
 
@@ -249,7 +249,6 @@ namespace KamWerksCardIndexCSharp.DiscordBot.Outputs.Fancy_Format
 				Origin = new PointF(974, 520),
 			};
 
-			Stream Cost;
 			var CostStream = await httpClient.GetStreamAsync(BlankSigil);
 			Image costImage = Image.Load(CostStream);
 

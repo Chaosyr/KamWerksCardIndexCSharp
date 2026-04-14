@@ -202,7 +202,7 @@ namespace KamWerksCardIndexCSharp.DiscordBot
 		[Command("FetchCard")]
 		public async Task FetchCardAsync(CommandContext context, [SlashChoiceProvider<SetsProvider>] string set, string name, [SlashChoiceProvider<TypeProvider>] string type, [SlashChoiceProvider<OverloadsProvider>] string overloads)
 		{
-			context.RespondAsync("Fetching card: " + name + " from set: " + set + "with overloads: " + overloads + ". Please wait!");
+			context.RespondAsync("Fetching card: " + name + " from set: " + set + " with overloads: " + overloads + ". Please wait!");
 			string[] request = new string[] { "", "", "", "" };
 			request[0] = set;
 			request[1] = Capitalization.CapitalizeWithSpaces(name);

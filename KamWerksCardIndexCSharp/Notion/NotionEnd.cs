@@ -1,12 +1,7 @@
 ﻿using Notion.Client;
-using System.Threading.Tasks;
-using System.Linq;
-using System.Collections.Generic;
-using System;
 using KamWerksCardIndexCSharp.Helpers;
 using System.Collections.Concurrent;
 using System.Net;
-using System.Net.Http.Headers;
 
 namespace KamWerksCardIndexCSharp.Notion
 {
@@ -20,13 +15,10 @@ namespace KamWerksCardIndexCSharp.Notion
         public static List<string> DmcSigilNames { get; private set; } = new();
         public static ConcurrentDictionary<string, string> DmcCards { get; private set; } = new();
         public static ConcurrentDictionary<string, string> DmcSigils { get; private set; } = new();
-        
         public static List<string> IotfdCardNames { get; private set; } = new();
         public static List<string> IotfdSigilNames { get; private set; } = new();
         public static ConcurrentDictionary<string, string> IotfdCards { get; private set; } = new();
         public static ConcurrentDictionary<string, string> IotfdSigils { get; private set; } = new();
-
-        private static List<string> previousSnapshot = new();
 
         public static async Task NotionMain()
         {
@@ -42,56 +34,56 @@ namespace KamWerksCardIndexCSharp.Notion
             var client = NotionClientFactory.Create(new ClientOptions { AuthToken = NotionAPIKey });
 
             var CtiCardPagesList = new List<string>();
-	        CtiCardPagesList = await FetchAllPageIds(client, "e19c88aa75b44bfe89321bcde8dc7d9f");
-            CtiCards = await FetchPageNamesAndStore(client, CtiCardPagesList, "Card", CtiCardNames);
+	        CtiCardPagesList = await FetchAllPageIds(client, "01c80bdf-b487-4e6f-b576-4ae546cda356", "CTI Cards");
+            CtiCards = await FetchPageNamesAndStore(client, CtiCardPagesList, "Card", CtiCardNames, "CTI Cards");
 
             var CtiSigilPagesList = new List<string>();
-            CtiSigilPagesList = await FetchAllPageIds(client, "933d6166cb3f4ee89db51e4cf464f5bd");
-            CtiSigils = await FetchPageNamesAndStore(client, CtiSigilPagesList, "Sigil", CtiSigilNames);
+            CtiSigilPagesList = await FetchAllPageIds(client, "538ba07a-6203-41e4-b975-a7db2c213a88", "CTI Sigils");
+            CtiSigils = await FetchPageNamesAndStore(client, CtiSigilPagesList, "Sigil", CtiSigilNames, "CTI Sigils");
 
             var DmcCardPagesList = new List<string>();
-            DmcCardPagesList = await FetchAllPageIds(client, "1229bd3134c34f69a369c5ef830bd7a0");
-            DmcCards = await FetchPageNamesAndStore(client, DmcCardPagesList, "Card", DmcCardNames);
+            DmcCardPagesList = await FetchAllPageIds(client, "0c218282-c9a1-468e-afca-678ca2a95be4", "DMC Cards");
+            DmcCards = await FetchPageNamesAndStore(client, DmcCardPagesList, "Card", DmcCardNames, "DMC Cards");
 
             var DmcSigilPagesList = new List<string>();
-            DmcSigilPagesList = await FetchAllPageIds(client, "ae46b70d77e649d78a94d2fc62a886e0");
-            DmcSigils = await FetchPageNamesAndStore(client, DmcSigilPagesList, "Sigil", DmcSigilNames);
+            DmcSigilPagesList = await FetchAllPageIds(client, "a1e99307-5540-451f-843e-cde9ff5581ee", "DMC Sigils");
+            DmcSigils = await FetchPageNamesAndStore(client, DmcSigilPagesList, "Sigil", DmcSigilNames, "DMC Sigils");
             
             var IotfdCardPagesList = new List<string>();
-            IotfdCardPagesList = await FetchAllPageIds(client, "8918fd0a983540308f80f131655db3d3");
-            IotfdCards = await FetchPageNamesAndStore(client, IotfdCardPagesList, "Card", IotfdCardNames);
+            IotfdCardPagesList = await FetchAllPageIds(client, "27c58b74-9db9-4e1d-9dbc-f2ac3bbac469", "IOTFD Cards");
+            IotfdCards = await FetchPageNamesAndStore(client, IotfdCardPagesList, "Card", IotfdCardNames, "IOTFD Cards");
 
             var IotfdSigilPagesList = new List<string>();
-            IotfdSigilPagesList = await FetchAllPageIds(client, "aa7158c620e14c1bade56faa7c09cd63");
-            IotfdSigils = await FetchPageNamesAndStore(client, IotfdSigilPagesList, "Sigil", IotfdSigilNames);
+            IotfdSigilPagesList = await FetchAllPageIds(client, "9c6b2c64-408b-4f89-8441-82ea17a58427", "IOTFD Sigils");
+            IotfdSigils = await FetchPageNamesAndStore(client, IotfdSigilPagesList, "Sigil", IotfdSigilNames, "IOTFD Sigils");
 
             logger.Info("Notion data retrieval completed successfully.");
         }
 
-        private static async Task<List<string>> FetchAllPageIds(NotionClient client, string databaseId)
+        private static async Task<List<string>> FetchAllPageIds(NotionClient client, string dataSourceId, string Group)
         {
-            List<string> pageIds = new();
-            string? nextCursor = null;
+	        List<string> pageIds = new();
+	        string? nextCursor = null;
 
-            do
-            {
-                var queryParams = new DatabasesQueryParameters
-                {
-                    StartCursor = nextCursor,
-                    PageSize = 100
-                };
+	        do
+	        {
+		        var request = new QueryDataSourceRequest
+		        {
+			        DataSourceId = dataSourceId,
+			        StartCursor = nextCursor,
+			        PageSize = 100
+		        };
 
-                var response = await RetryWithBackoff(() => client.Databases.QueryAsync(databaseId, queryParams));
+		        var response = await RetryWithBackoff(() => client.DataSources.QueryAsync(request));
 
-				// Log the response from Notion API
-                Console.WriteLine($"Received {response.Results.Count} results for database {databaseId}");
+		        Console.WriteLine($"[{Group}]: Received {response.Results.Count} results from Data Source {dataSourceId}");
+                
+		        pageIds.AddRange(response.Results.Select(page => page.Id));
+                
+		        nextCursor = response.HasMore ? response.NextCursor : null;
+	        } while (!string.IsNullOrEmpty(nextCursor));
 
-                pageIds.AddRange(response.Results.Select(page => page.Id));
-
-                nextCursor = response.HasMore ? response.NextCursor : null;
-            } while (!string.IsNullOrEmpty(nextCursor));
-
-            return pageIds;
+	        return pageIds;
         }
 
         public static async Task<T> RetryWithBackoff<T>(Func<Task<T>> action)
@@ -105,11 +97,11 @@ namespace KamWerksCardIndexCSharp.Notion
                 {
                     return await action();
                 }
-                catch (NotionApiRateLimitException ex) when (ex.StatusCode == HttpStatusCode.TooManyRequests)
+                catch (NotionApiRateLimitException ex) when (ex.StatusCode == HttpStatusCode.TooManyRequests) 
                 {
                     int waitTime = ex.RetryAfter?.Milliseconds + 50 ?? delay;
 
-                    Console.WriteLine($"Rate limited! Retrying in {waitTime}ms...");
+                    Console.WriteLine($"[Retry {retryCount}]: Rate limited! Retrying in {waitTime}ms...");
                     await Task.Delay(waitTime);
 
                     retryCount++;
@@ -118,7 +110,7 @@ namespace KamWerksCardIndexCSharp.Notion
             }
         }
 
-        private static async Task<ConcurrentDictionary<string, string>> FetchPageNamesAndStore(NotionClient client, List<string> pageIds, string itemType, List<string> nameList)
+        private static async Task<ConcurrentDictionary<string, string>> FetchPageNamesAndStore(NotionClient client, List<string> pageIds, string itemType, List<string> nameList, string Group)
         {
 	        var logger = LoggerFactory.CreateLogger("console");
 	        ConcurrentDictionary<string, string> pageNameDict = new();
@@ -134,12 +126,12 @@ namespace KamWerksCardIndexCSharp.Notion
 			        pageNameDict[nameText] = id;
 
 			        // Log each retrieved page for debugging
-			        logger.Info($"Retrieved {itemType} Name: {nameText} (ID: {id})");
+			        logger.Info($"[{Group}]: Retrieved {itemType} Name: {nameText} (ID: {id})");
 		        }
 		        else
 		        {
 			        // Log any failed attempts to retrieve data
-			        logger.Warning($"Failed to retrieve {itemType} Name for ID: {id}");
+			        logger.Warning($"[{Group}]: Failed to retrieve {itemType} Name for ID: {id}");
 		        }
 	        }).ToList();
 
