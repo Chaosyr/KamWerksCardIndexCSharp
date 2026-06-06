@@ -1,10 +1,8 @@
-using DSharpPlus;
 using DSharpPlus.Commands;
 using DSharpPlus.Entities;
-using DSharpPlus.EventArgs;
-using System.Text.RegularExpressions;
 using KamWerksCardIndexCSharp.Helpers;
 using KamWerksCardIndexCSharp.Notion;
+using KamWerksCardIndexCSharp.Notion.SendToGitAsJSON;
 
 namespace KamWerksCardIndexCSharp.DiscordBot.CommandBases
 {
@@ -18,7 +16,36 @@ namespace KamWerksCardIndexCSharp.DiscordBot.CommandBases
 			if (message.Replace("|", "").Contains("Recache"))
 			{
 				await context.RespondAsync("Running Recache, please wait until the next message is sent.");
-				await NotionEnd.NotionMain();
+				
+				var activity = new DiscordActivity
+				{
+					Name = "Loading up Notion Databases, please Hold!",
+					ActivityType = DiscordActivityType.Streaming
+				};
+				
+				await context.Client.UpdateStatusAsync(activity, DiscordUserStatus.Idle);
+				
+				await NotionEnd.NotionMain(context.Client);
+				
+				var activity3 = new DiscordActivity
+				{
+					Name = "Checking and Sending Updated Databases to GitHub!",
+					ActivityType = DiscordActivityType.Streaming
+				};
+				
+				await context.Client.UpdateStatusAsync(activity3, DiscordUserStatus.Idle);
+				
+				logger.Info("Sending data to GitHub Real Quick!");
+				await SendToGit.SendOff(NotionEnd.JSONCollection);
+				logger.Info("Finished Sending, returned to main loop!");
+				
+				var activity2 = new DiscordActivity
+				{
+					Name = "Monitoring for Commands!",
+					ActivityType = DiscordActivityType.Competing
+				};
+			
+				await context.Client.UpdateStatusAsync(activity2, DiscordUserStatus.Idle);
 				var messageOutput = "Admin Command: " + "Recache" + " has completed";
 				await context.FollowupAsync(messageOutput);
 			}

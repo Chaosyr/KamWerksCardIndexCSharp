@@ -16,7 +16,7 @@ namespace KamWerksCardIndexCSharp.Notion.FormatStructFetching
 		public async static Task<List<string>> FetchPageProperties (string name, string set, string type)
 		{
 			var logger = LoggerFactory.CreateLogger("console");
-			string NotionAPIKey = Environment.GetEnvironmentVariable("NOTION_API_KEY");
+			string NotionAPIKey = Environment.GetEnvironmentVariable("NOTION_IPVP_TOKEN");
 			if (string.IsNullOrWhiteSpace(NotionAPIKey))
 			{
 				logger.Error("Hey, You missed the Notion API Key Environment Var.");

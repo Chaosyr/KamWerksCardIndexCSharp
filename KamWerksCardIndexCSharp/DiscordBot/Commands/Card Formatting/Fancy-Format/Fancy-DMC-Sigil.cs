@@ -11,8 +11,19 @@ using KamWerksCardIndexCSharp.Notion;
 
 namespace KamWerksCardIndexCSharp.DiscordBot.Commands.Fancy_Format
 {
+	/// <summary>
+	/// Handles the Fancy Formatting for DMC Sigils via Commaands.
+	/// </summary>
+	/// <remarks>This code is provided by Creator/Chaosyr/SaxbyMod/The Stoat Lord.</remarks>
 	public class Fancy_DMC_Sigil
 	{
+		/// <summary>
+		/// Runs DMC Sigil in Fancy Mode.
+		/// </summary>
+		/// <param name="iterator30">An iterator used to make sure image attachments are unique.</param>
+		/// <param name="formattedcontent">A split string array used to decipher arguements.</param>
+		/// <param name="additionalproperties">A split additional properties arguement used to determine some special condtions related to the Fancy Mode</param>
+		/// <returns>A discord message reply with the Fancy Type of sigil.</returns>
 		public async static Task<(DiscordMessageBuilder mess, string takeout)> DMC(int iterator30, string[] formattedcontent)
 		{
 			DiscordMessageBuilder messageBuilder = new();
