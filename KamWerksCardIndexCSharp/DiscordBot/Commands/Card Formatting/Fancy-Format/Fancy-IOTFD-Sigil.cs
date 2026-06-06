@@ -127,6 +127,14 @@ namespace KamWerksCardIndexCSharp.DiscordBot.Commands.Fancy_Format
 			var takeout = output;
 			return (messageBuilder, takeout);
 		}
+		
+		/// <summary>
+		/// Runs IOTFD Sigil in Fancy Mode (from a Card).
+		/// </summary>
+		/// <param name="iterator30">An iterator used to make sure image attachments are unique.</param>
+		/// <param name="formattedcontent">A split string array used to decipher arguements.</param>
+		/// <param name="additionalproperties">A split additional properties arguement used to determine some special condtions related to the Fancy Mode</param>
+		/// <returns>A discord message reply with the Fancy Type of sigil.</returns>
 		public async static Task<(MemoryStream image, string takeout)> IOTFDFromCard(string set, string name, string Token)
 		{
 			DiscordMessageBuilder messageBuilder = new();

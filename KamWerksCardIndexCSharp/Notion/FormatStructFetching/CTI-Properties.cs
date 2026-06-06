@@ -1,9 +1,7 @@
 using Notion.Client;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System;
 using KamWerksCardIndexCSharp.Helpers;
 using KamWerksCardIndexCSharp.Notion.Helper_Methods;
+using MultiSelectProperty = KamWerksCardIndexCSharp.Notion.Helper_Methods.MultiSelectProperty;
 using RichTextProperty = KamWerksCardIndexCSharp.Notion.Helper_Methods.RichTextProperty;
 using SelectProperty = KamWerksCardIndexCSharp.Notion.Helper_Methods.SelectProperty;
 using TitleProperty = KamWerksCardIndexCSharp.Notion.Helper_Methods.TitleProperty;
@@ -98,6 +96,11 @@ namespace KamWerksCardIndexCSharp.Notion.FormatStructFetching
 					{
 						var selectProperty = await SelectProperty.GetPropertyAsString(property.Value);
 						properties.Add(selectProperty);
+					}
+					if (property.Value.Type == PropertyValueType.MultiSelect)
+					{
+						var multiselectProperty = await MultiSelectProperty.GetPropertyAsString(property.Value);
+						properties.Add(multiselectProperty);
 					}
 					if (property.Value.Type == PropertyValueType.Url)
 					{

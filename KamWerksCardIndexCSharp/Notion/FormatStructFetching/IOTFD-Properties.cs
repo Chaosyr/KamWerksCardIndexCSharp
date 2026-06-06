@@ -1,7 +1,4 @@
 ﻿using Notion.Client;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System;
 using KamWerksCardIndexCSharp.Helpers;
 using KamWerksCardIndexCSharp.Notion.Helper_Methods;
 using MultiSelectProperty = KamWerksCardIndexCSharp.Notion.Helper_Methods.MultiSelectProperty;
@@ -99,15 +96,15 @@ namespace KamWerksCardIndexCSharp.Notion.FormatStructFetching
 						var selectProperty = await SelectProperty.GetPropertyAsString(property.Value);
 						properties.Add(selectProperty);
 					}
-					if (property.Value.Type == PropertyValueType.Url)
-					{
-						var urlProperty = await URLProperty.GetPropertyAsString(property.Value);
-						properties.Add(urlProperty);
-					}
 					if (property.Value.Type == PropertyValueType.MultiSelect)
 					{
 						var multiselectProperty = await MultiSelectProperty.GetPropertyAsString(property.Value);
 						properties.Add(multiselectProperty);
+					}
+					if (property.Value.Type == PropertyValueType.Url)
+					{
+						var urlProperty = await URLProperty.GetPropertyAsString(property.Value);
+						properties.Add(urlProperty);
 					}
 				}
 			} else if (type == "Sigil")
@@ -130,13 +127,13 @@ namespace KamWerksCardIndexCSharp.Notion.FormatStructFetching
 				page.Properties.TryGetValue("Internal Name", out var internalName);
 				page.Properties.TryGetValue("Name", out var namesigil);
 				page.Properties.TryGetValue("Description", out var description);
-				page.Properties.TryGetValue("Sigil Category", out var category);
+				page.Properties.TryGetValue("Category", out var category);
 
 				// Add properties to List
 				Properties.Add("Internal Name", internalName);
 				Properties.Add("Name", namesigil);
 				Properties.Add("Description", description);
-				Properties.Add("Sigil Category", category);
+				Properties.Add("Category", category);
 
 				foreach (var property in Properties)
 				{

@@ -1,5 +1,4 @@
-﻿using System.Collections.Concurrent;
-using DSharpPlus;
+﻿using DSharpPlus;
 using DSharpPlus.Commands;
 using DSharpPlus.Commands.Processors.SlashCommands.ArgumentModifiers;
 using DSharpPlus.Commands.Processors.TextCommands;
@@ -35,7 +34,7 @@ namespace KamWerksCardIndexCSharp.DiscordBot
 
 		private static async Task HandleNotionAndDiscordAsync()
 		{
-			string KamWerksID = Environment.GetEnvironmentVariable("DISCORD_TOKEN_BETA");
+			string KamWerksID = Environment.GetEnvironmentVariable("DISCORD_TOKEN_KAM");
 			if (KamWerksID == null)
 			{
 				Console.WriteLine("Hey, You missed the Kam Werks ID Environment Var.");
@@ -129,7 +128,7 @@ namespace KamWerksCardIndexCSharp.DiscordBot
 			var activity2 = new DiscordActivity
 			{
 				Name = "Monitoring for Commands!",
-				ActivityType = DiscordActivityType.Competing
+				ActivityType = DiscordActivityType.Playing
 			};
 			
 			await client.UpdateStatusAsync(activity2, DiscordUserStatus.Idle);

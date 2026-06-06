@@ -42,7 +42,7 @@ namespace KamWerksCardIndexCSharp.DiscordBot.CommandBases
 				var activity2 = new DiscordActivity
 				{
 					Name = "Monitoring for Commands!",
-					ActivityType = DiscordActivityType.Competing
+					ActivityType = DiscordActivityType.Playing
 				};
 			
 				await context.Client.UpdateStatusAsync(activity2, DiscordUserStatus.Idle);

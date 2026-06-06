@@ -127,6 +127,12 @@ namespace KamWerksCardIndexCSharp.DiscordBot.Commands.Fancy_Format
 			return (messageBuilder, takeout);
 		}
 		
+		/// <summary>
+		/// Runs CTI Sigil in Fancy Mode (From a Card).
+		/// </summary>
+		/// <param name="iterator30">An iterator used to make sure image attachments are unique.</param>
+		/// <param name="formattedcontent">A split string array used to decipher arguements.</param>
+		/// <returns>A discord message reply with the Fancy Type of sigil.</returns>
 		public async static Task<(MemoryStream image, string takeout)> CTIFromCard(string set, string name, string Token)
 		{
 			var logger = LoggerFactory.CreateLogger("console");
