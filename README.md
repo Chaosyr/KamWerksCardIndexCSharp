@@ -12,7 +12,7 @@
 | :-: | :-: |
 | Test | TEST |
 | Fancy Image | FANCY |
-| Full Card/Sigil | FULLCARD |
+| Full Card/Sigil | FULL |
 
 ### Modifiers;
 | Modier | Code | What It Does |
