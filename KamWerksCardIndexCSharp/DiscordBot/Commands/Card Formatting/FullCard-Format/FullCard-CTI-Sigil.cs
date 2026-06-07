@@ -94,7 +94,7 @@ namespace KamWerksCardIndexCSharp.DiscordBot.Commands.FullCard_Format
 				{
 					img.DrawText(optionsTitle, ctiProperties[1], Color.Black);
 					img.DrawText(optionsNormal, ctiProperties[2], Color.Black);
-					img.DrawText(optionsSubSubText, ctiProperties[3], Color.Black);
+					img.DrawText(optionsSubSubText, ctiProperties[3], Color.White);
 					sigil.Mutate(img =>
 						{
 							img.Resize(170,170, new NearestNeighborResampler());

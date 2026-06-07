@@ -45,7 +45,7 @@ namespace KamWerksCardIndexCSharp.DiscordBot.CommandBases
 					ActivityType = DiscordActivityType.Playing
 				};
 			
-				await context.Client.UpdateStatusAsync(activity2, DiscordUserStatus.Idle);
+				await context.Client.UpdateStatusAsync(activity2, DiscordUserStatus.Online);
 				var messageOutput = "Admin Command: " + "Recache" + " has completed";
 				await context.FollowupAsync(messageOutput);
 			}

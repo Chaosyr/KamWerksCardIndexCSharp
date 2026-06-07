@@ -42,8 +42,7 @@ namespace KamWerksCardIndexCSharp.DiscordBot
 
 			var logger = LoggerFactory.CreateLogger("console");
 
-			DiscordClientBuilder builder = DiscordClientBuilder.CreateDefault(KamWerksID,
-				DiscordIntents.AllUnprivileged | DiscordIntents.MessageContents);
+			DiscordClientBuilder builder = DiscordClientBuilder.CreateDefault(KamWerksID, DiscordIntents.AllUnprivileged | DiscordIntents.MessageContents);
 
 			builder.ConfigureEventHandlers(commands =>
 				commands.HandleMessageCreated(async (s, e) =>
@@ -131,7 +130,7 @@ namespace KamWerksCardIndexCSharp.DiscordBot
 				ActivityType = DiscordActivityType.Playing
 			};
 			
-			await client.UpdateStatusAsync(activity2, DiscordUserStatus.Idle);
+			await client.UpdateStatusAsync(activity2, DiscordUserStatus.Online);
 			
 			await Task.Delay(-1);
 		}
@@ -149,9 +148,8 @@ namespace KamWerksCardIndexCSharp.DiscordBot
 				});
 			});
 
-			// this will be invoked by the builder when you call ConnectAsync
 			DiscordClient client = builder.Build();
-			await builder.ConnectAsync(); // non‑blocking; Ready will be fired later
+			await builder.ConnectAsync();
 
 			return await tcs.Task;
 		}
@@ -224,7 +222,7 @@ namespace KamWerksCardIndexCSharp.DiscordBot
 			[
 				new DiscordApplicationCommandOptionChoice("Fancy", "FANCY"),
 				new DiscordApplicationCommandOptionChoice("Debug", "TEST"),
-				new DiscordApplicationCommandOptionChoice("Full Card", "FULLCARD"),
+				new DiscordApplicationCommandOptionChoice("Full", "FULLCARD"),
 			];
 
 			public ValueTask<IEnumerable<DiscordApplicationCommandOptionChoice>> ProvideAsync(CommandParameter parameter) => ValueTask.FromResult(types);
@@ -277,7 +275,7 @@ namespace KamWerksCardIndexCSharp.DiscordBot
 					}
 				}
 				
-				if (type == "FULLCARD")
+				if (type == "FULL")
 				{
 					if (NotionEnd.CtiCardNames.Contains(name))
 					{
@@ -312,7 +310,7 @@ namespace KamWerksCardIndexCSharp.DiscordBot
 					}
 				}
 				
-				if (type == "FULLCARD")
+				if (type == "FULL")
 				{
 					if (NotionEnd.DmcCardNames.Contains(name))
 					{
@@ -347,7 +345,7 @@ namespace KamWerksCardIndexCSharp.DiscordBot
 					}
 				}
 				
-				if (type == "FULLCARD")
+				if (type == "FULL")
 				{
 					if (NotionEnd.IotfdCardNames.Contains(name))
 					{
@@ -392,7 +390,7 @@ namespace KamWerksCardIndexCSharp.DiscordBot
 					}
 				}
 				
-				if (type == "FULLCARD" || string.IsNullOrEmpty(type))
+				if (type == "FULL" || string.IsNullOrEmpty(type))
 				{
 					if (NotionEnd.CtiSigilNames.Contains(name))
 					{
@@ -427,7 +425,7 @@ namespace KamWerksCardIndexCSharp.DiscordBot
 					}
 				}
 				
-				if (type == "FULLCARD" || string.IsNullOrEmpty(type))
+				if (type == "FULL" || string.IsNullOrEmpty(type))
 				{
 					if (NotionEnd.DmcSigilNames.Contains(name))
 					{
@@ -462,7 +460,7 @@ namespace KamWerksCardIndexCSharp.DiscordBot
 					}
 				}
 				
-				if (type == "FULLCARD" || string.IsNullOrEmpty(type))
+				if (type == "FULL" || string.IsNullOrEmpty(type))
 				{
 					if (NotionEnd.IotfdSigilNames.Contains(name))
 					{

@@ -16,7 +16,7 @@ namespace KamWerksCardIndexCSharp.Helpers
 		{
 			"TEST",
 			"FANCY",
-			"FULLCARD"
+			"FULL"
 		};
 		
 		public static List<string> ResponseTypes = new List<string>()

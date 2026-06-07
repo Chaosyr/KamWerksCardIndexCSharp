@@ -63,19 +63,4 @@ namespace KamWerksCardIndexCSharp.Helpers
 			};
 		}
 	}
-
-	public class LoggerUser
-	{
-		private readonly ILogger _logger;
-
-		public LoggerUser(ILogger logger)
-		{
-			_logger = logger;
-		}
-
-		public void DoSomething()
-		{
-			_logger.LogInformation("LoggerUser is doing something.");
-		}
-	}
 }
