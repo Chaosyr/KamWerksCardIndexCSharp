@@ -72,15 +72,15 @@ namespace KamWerksCardIndexCSharp.DiscordBot.Outputs.FullCard_Format
 			{
 				HorizontalAlignment = HorizontalAlignment.Left,
 				VerticalAlignment = VerticalAlignment.Top,
-				Origin = new PointF(210, 70),
+				Origin = new PointF(210, 25),
 			};
 
 			RichTextOptions optionsNormal = new(NormalSize)
 			{
 				HorizontalAlignment = HorizontalAlignment.Left,
 				VerticalAlignment = VerticalAlignment.Top,
-				Origin = new PointF(240, 121),
-				WrappingLength = 596,
+				Origin = new PointF(240, 75),
+				WrappingLength = 620,
 			};
 			
 			RichTextOptions optionsSubSubText = new(NormalSize)
