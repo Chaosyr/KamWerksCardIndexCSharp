@@ -15,8 +15,9 @@ This bot is created by Chaosyr otherwise known as The Stoat Lord, Thincreator348
 ### Modifiers;
 | Modier | Code | What It Does |
 | :-: | :-: | :-: |
-| No Excess | NOEXCESS | Get rid of the tips that pop on for querying sigils on formats that dont have the def shown |
-| Sigil Inclusive | SIGILINCLUSIVE | Query the sigil with the card |
+| No Excess | NOEXCESS | Get rid of the tips that pop on for querying sigils on formats that dont have the definition shown |
+| Sigil Inclusive | SIGILINCLUSIVE | Query the sigil with the card, and Query the sigil with the card on formats that don't have the definition shown. |
+| No Excess & Sigil Inclusive | NOEXCESS-SIGILINCLUSIVE | Get rid of the tips that pop on for querying sigils on formats that don't have the definition shown, and Query the sigil with the card on formats that don't have the definition shown. |
 ### Admin Commands;
 | Name | What it does |
 | :-: | :-: |
