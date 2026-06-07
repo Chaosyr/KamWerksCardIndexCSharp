@@ -222,7 +222,7 @@ namespace KamWerksCardIndexCSharp.DiscordBot
 			[
 				new DiscordApplicationCommandOptionChoice("Fancy", "FANCY"),
 				new DiscordApplicationCommandOptionChoice("Debug", "TEST"),
-				new DiscordApplicationCommandOptionChoice("Full", "FULLCARD"),
+				new DiscordApplicationCommandOptionChoice("Full", "FULL"),
 			];
 
 			public ValueTask<IEnumerable<DiscordApplicationCommandOptionChoice>> ProvideAsync(CommandParameter parameter) => ValueTask.FromResult(types);
